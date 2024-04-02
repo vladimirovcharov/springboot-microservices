@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  service-registry:
+    container_name: service-registry
+    build:
+      context: service-registry
+      dockerfile: Dockerfile
+    image: service-registry:latest
+    hostname: service-registry
+    ports:
+      - "8761:8761"
+    networks:
+      - spring-cloud-network
+
+  config-server:
+    container_name: config-server
+    build:
+      context: config-server
+      dockerfile: Dockerfile
+    image: config-server:latest
+    hostname: config-server
+    ports:
+      - "8088:8088"
+    networks:
+      - spring-cloud-network
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    hostname: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - spring-cloud-network
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: api-gateway
+      dockerfile: Dockerfile
+    image: api-gateway:latest
+    hostname: api-gateway
+    depends_on:
+      - config-server
+    ports:
+      - "8060:8060"
+    networks:
+      - spring-cloud-network
+
+  employee-service:
+    container_name: employee-service
+    build:
+      context: employee-service
+      dockerfile: Dockerfile
+    image: employee-service:latest
+    hostname: employee-service
+    depends_on:
+      - service-registry
+      - config-server
+    ports:
+      - "8082:8082"
+    networks:
+      - spring-cloud-network
+
+  department-service:
+    container_name: department-service
+    build:
+      context: department-service
+      dockerfile: Dockerfile
+    image: department-service:latest
+    hostname: department-service
+    depends_on:
+      - service-registry
+      - config-server
+    ports:
+      - "8081:8081"
+    networks:
+      - spring-cloud-network
+
+networks:
+  spring-cloud-network:
+    driver: bridge
