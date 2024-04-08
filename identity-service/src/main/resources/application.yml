@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: identity-service
+  config:
+    import: "optional:configserver:http://config-server:8088"
+  datasource:
+    url: jdbc:mysql://mysql:3306/identity
+    username: root
+    password: pass
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
+
+jwtSecret: ======================JWT====SECRET========================
+jwtExpirationMs: 86400

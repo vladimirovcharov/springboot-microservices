@@ -1,0 +1,14 @@
+server:
+  port: 8084
+
+eureka:
+  instance:
+    hostname: identity-service
+  client:
+    serviceUrl:
+      defaultZone: http://service-registry:8761/eureka/
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0

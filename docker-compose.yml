@@ -92,6 +92,24 @@ services:
     networks:
       - spring-cloud-network
 
+  identity-service:
+    container_name: identity-service
+    build:
+      context: identity-service
+      dockerfile: Dockerfile
+    image: identity-service:latest
+    hostname: identity-service
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysql:3306/identity
+    depends_on:
+      - service-registry
+      - config-server
+      - mysql
+    ports:
+      - "8084:8084"
+    networks:
+      - spring-cloud-network
+
 networks:
   spring-cloud-network:
     driver: bridge

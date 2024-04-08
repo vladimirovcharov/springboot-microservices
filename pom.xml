@@ -19,6 +19,7 @@
     <module>config-server</module>
     <module>department-service</module>
     <module>employee-service</module>
+    <module>identity-service</module>
     <module>service-registry</module>
   </modules>
 
