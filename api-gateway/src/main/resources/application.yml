@@ -10,10 +10,18 @@ spring:
           uri: lb://employee-service
           predicates:
             - Path=/employees/**
+          filters:
+            - AuthenticationFilter
         - id: department-service
           uri: lb://department-service
           predicates:
             - Path=/departments/**
+          filters:
+            - AuthenticationFilter
+        - id: identity-service
+          uri: lb://identity-service
+          predicates:
+            - Path=/auth/**
 
 management:
   zipkin:
